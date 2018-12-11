@@ -1,0 +1,19 @@
+{
+    "name": "cordova-plugin-update",
+    "version": "1.0.0",
+    "description": "Auto update for cordova plugin",
+    "cordova": {
+        "id": "cordova-plugin-update",
+        "platforms": [
+            "android"
+        ]
+    },
+    "keywords": [
+        "update",
+        "cordova-android"
+    ],
+    "devDependencies": {
+    },
+    "author": "yanglb.com",
+    "license": "Apache 2.0"
+}
