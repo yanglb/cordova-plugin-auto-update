@@ -52,6 +52,7 @@ public class UpdateError extends Throwable {
         return m + "(" + message + ")";
     }
 
+
     public static final int UPDATE_IGNORED = 1001;
     public static final int UPDATE_NO_NEWER = 1002;
 
@@ -74,10 +75,9 @@ public class UpdateError extends Throwable {
     public static final int DOWNLOAD_INCOMPLETE = 3009;
     public static final int DOWNLOAD_VERIFY = 3010;
 
-    public static final int UPDATE_FAILED = 4001;
-
     public static final SparseArray<String> messages = new SparseArray<>();
     static {
+
         messages.append(UPDATE_IGNORED, "该版本已经忽略");
         messages.append(UPDATE_NO_NEWER, "已经是最新版了");
 
@@ -98,7 +98,5 @@ public class UpdateError extends Throwable {
         messages.append(DOWNLOAD_HTTP_STATUS, "下载失败：错误的HTTP状态");
         messages.append(DOWNLOAD_INCOMPLETE, "下载失败：下载不完整");
         messages.append(DOWNLOAD_VERIFY, "下载失败：校验错误");
-
-        messages.append(UPDATE_FAILED, "更新失败");
     }
 }

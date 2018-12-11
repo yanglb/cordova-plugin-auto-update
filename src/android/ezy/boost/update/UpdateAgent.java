@@ -24,7 +24,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
-import android.support.v4.app.NotificationCompat;
+import android.support.v7.app.NotificationCompat;
 import android.text.format.Formatter;
 import android.text.method.ScrollingMovementMethod;
 import android.widget.TextView;
@@ -49,7 +49,7 @@ class UpdateAgent implements ICheckAgent, IUpdateAgent, IDownloadAgent {
     private IUpdateDownloader mDownloader;
     private IUpdatePrompter mPrompter;
 
-    private OnFinishListener mOnFinishListener;
+    private OnFailureListener mOnFailureListener;
 
     private OnDownloadListener mOnDownloadListener;
     private OnDownloadListener mOnNotificationDownloadListener;
@@ -61,7 +61,7 @@ class UpdateAgent implements ICheckAgent, IUpdateAgent, IDownloadAgent {
         mIsWifiOnly = isWifiOnly;
         mDownloader = new DefaultUpdateDownloader(mContext);
         mPrompter = new DefaultUpdatePrompter(context);
-        mOnFinishListener = new DefaultFailureListener(context);
+        mOnFailureListener = new DefaultFailureListener(context);
         mOnDownloadListener = new DefaultDialogDownloadListener(context);
         if (notifyId > 0) {
             mOnNotificationDownloadListener = new DefaultNotificationDownloadListener(mContext, notifyId);
@@ -95,8 +95,8 @@ class UpdateAgent implements ICheckAgent, IUpdateAgent, IDownloadAgent {
         mOnDownloadListener = listener;
     }
 
-    public void setOnFailureListener(OnFinishListener listener) {
-        mOnFinishListener = listener;
+    public void setOnFailureListener(OnFailureListener listener) {
+        mOnFailureListener = listener;
     }
 
 
@@ -165,7 +165,7 @@ class UpdateAgent implements ICheckAgent, IUpdateAgent, IDownloadAgent {
             mOnDownloadListener.onFinish();
         }
         if (mError != null) {
-            mOnFinishListener.onFailure(mError);
+            mOnFailureListener.onFailure(mError);
         } else {
             mTmpFile.renameTo(mApkFile);
             if (mInfo.isAutoInstall) {
@@ -254,18 +254,12 @@ class UpdateAgent implements ICheckAgent, IUpdateAgent, IDownloadAgent {
     }
 
     void doInstall() {
-        boolean result = UpdateUtil.install(mContext, mApkFile, mInfo.isForce);
-        if (!result) {
-            UpdateError error = new UpdateError(UpdateError.UPDATE_FAILED);
-            mOnFinishListener.onFailure(error);
-        } else {
-            mOnFinishListener.onSuccess();
-        }
+        UpdateUtil.install(mContext, mApkFile, mInfo.isForce);
     }
 
     void doFailure(UpdateError error) {
         if (mIsManual || error.isError()) {
-            mOnFinishListener.onFailure(error);
+            mOnFailureListener.onFailure(error);
         }
     }
 
@@ -340,16 +334,12 @@ class UpdateAgent implements ICheckAgent, IUpdateAgent, IDownloadAgent {
         }
     }
 
-    private static class DefaultFailureListener implements OnFinishListener {
+    private static class DefaultFailureListener implements OnFailureListener {
 
         private Context mContext;
 
         public DefaultFailureListener(Context context) {
             mContext = context;
-        }
-
-        @Override
-        public void onSuccess() {
         }
 
         @Override

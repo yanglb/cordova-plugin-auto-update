@@ -16,7 +16,6 @@
 
 package ezy.boost.update;
 
-public interface OnFinishListener {
-    void onSuccess();
+public interface OnFailureListener {
     void onFailure(UpdateError error);
 }

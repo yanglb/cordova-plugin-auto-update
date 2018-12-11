@@ -30,18 +30,12 @@ import android.support.v4.content.FileProvider;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.blankj.utilcode.util.AppUtils;
-import com.blankj.utilcode.util.ShellUtils;
-
-import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.Closeable;
-import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 
@@ -112,17 +106,28 @@ public class UpdateUtil {
         return !TextUtils.isEmpty(md5) && md5.equals(context.getSharedPreferences(PREFS, 0).getString(KEY_IGNORE, ""));
     }
 
-    public static boolean install(Context context, boolean force) {
+    public static void install(Context context, boolean force) {
         String md5 = context.getSharedPreferences(PREFS, 0).getString(KEY_UPDATE, "");
         File apk = new File(context.getExternalCacheDir(), md5 + ".apk");
         if (UpdateUtil.verify(apk, md5)) {
-            return install(context, apk, force);
+            install(context, apk, force);
         }
-        return false;
     }
 
-    public static boolean install(Context context, File file, boolean force) {
-        return AppUtils.installAppSilent(file, "-r", false);
+    public static void install(Context context, File file, boolean force) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+            intent.setDataAndType(Uri.fromFile(file), "application/vnd.android.package-archive");
+        } else {
+            Uri uri = FileProvider.getUriForFile(context, context.getPackageName() + ".updatefileprovider", file);
+            intent.setDataAndType(uri, "application/vnd.android.package-archive");
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        }
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+        if (force) {
+            System.exit(0);
+        }
     }
 
     public static boolean verify(File apk, String md5) {
@@ -145,6 +150,10 @@ public class UpdateUtil {
         StringBuilder builder = new StringBuilder();
         builder.append(url);
         builder.append(url.indexOf("?") < 0 ? "?" : "&");
+        builder.append("package=");
+        builder.append(context.getPackageName());
+        builder.append("&version=");
+        builder.append(getVersionCode(context));
         builder.append("&channel=");
         builder.append(channel);
         return builder.toString();

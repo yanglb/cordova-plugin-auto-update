@@ -72,7 +72,7 @@ public class UpdateManager {
         private OnDownloadListener mOnNotificationDownloadListener;
         private OnDownloadListener mOnDownloadListener;
         private IUpdatePrompter mPrompter;
-        private OnFinishListener mOnFinishListener;
+        private OnFailureListener mOnFailureListener;
 
         private IUpdateParser mParser;
         private IUpdateChecker mChecker;
@@ -138,8 +138,8 @@ public class UpdateManager {
             return this;
         }
 
-        public Builder setOnFinishListener(@NonNull OnFinishListener listener) {
-            mOnFinishListener = listener;
+        public Builder setOnFailureListener(@NonNull OnFailureListener listener) {
+            mOnFailureListener = listener;
             return this;
         }
 
@@ -163,8 +163,8 @@ public class UpdateManager {
             if (mOnDownloadListener != null) {
                 agent.setOnDownloadListener(mOnDownloadListener);
             }
-            if (mOnFinishListener != null) {
-                agent.setOnFailureListener(mOnFinishListener);
+            if (mOnFailureListener != null) {
+                agent.setOnFailureListener(mOnFailureListener);
             }
             if (mChecker != null) {
                 agent.setChecker(mChecker);
