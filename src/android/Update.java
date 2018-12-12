@@ -3,7 +3,6 @@ package com.yanglb.cordova;
 import android.content.pm.PackageManager;
 import android.util.Log;
 
-import org.apache.cordova.BuildConfig;
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.PluginResult;
@@ -50,29 +49,28 @@ public class Update extends CordovaPlugin {
     }
 
     private void checkUpdate(boolean isManual, String apiAddress) {
-        String url = String.format("%s?versionName=%s&from=cordova-auto-update&v=",
+        String url = String.format("%s?versionName=%s&from=cordova-update",
                 apiAddress,
-                getVersionName(),
-                BuildConfig.VERSION_NAME);
+                getVersionName());
 
         Log.d(TAG, "检查更新: " + url);
 
-        UpdateManager.create(this.cordova.getActivity())
-                .setUrl(url)
-                .setNotifyId(100)
-                .setWifiOnly(false)
-                .setManual(isManual)
-                .check();
+        UpdateManager.setUrl(url, "cordova-update");
+        if (isManual) {
+            UpdateManager.checkManual(cordova.getActivity());
+        } else {
+            UpdateManager.check(cordova.getActivity());
+        }
     }
 
     private String getVersionName() {
         PackageManager packageManager = this.cordova.getActivity().getPackageManager();
         try {
             String vn = packageManager.getPackageInfo(this.cordova.getActivity().getPackageName(), 0).versionName;
-            return "1.2.0";
+            return vn;
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
-            return "";
+            return "0.0.0";
         }
     }
 }
