@@ -8,12 +8,21 @@
             "android"
         ]
     },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/yanglb/cordova-plugin-update"
+    },
     "keywords": [
         "update",
-        "cordova-android"
+        "auto update",
+        "cordova android"
     ],
     "devDependencies": {
     },
     "author": "yanglb.com",
-    "license": "Apache 2.0"
+    "license": "Apache 2.0",
+    "bugs": {
+        "url": "https://github.com/yanglb/cordova-plugin-update/issues"
+    },
+    "homepage": "https://github.com/yanglb/cordova-plugin-update"
 }
