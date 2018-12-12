@@ -1,6 +1,6 @@
 {
     "name": "cordova-plugin-auto-update",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "Auto update for cordova plugin",
     "cordova": {
         "id": "cordova-plugin-auto-update",
