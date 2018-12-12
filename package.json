@@ -1,16 +1,16 @@
 {
-    "name": "cordova-plugin-update",
+    "name": "cordova-plugin-auto-update",
     "version": "1.0.0",
     "description": "Auto update for cordova plugin",
     "cordova": {
-        "id": "cordova-plugin-update",
+        "id": "cordova-plugin-auto-update",
         "platforms": [
             "android"
         ]
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/yanglb/cordova-plugin-update"
+        "url": "https://github.com/yanglb/cordova-plugin-auto-update"
     },
     "keywords": [
         "update",
@@ -22,7 +22,7 @@
     "author": "yanglb.com",
     "license": "Apache 2.0",
     "bugs": {
-        "url": "https://github.com/yanglb/cordova-plugin-update/issues"
+        "url": "https://github.com/yanglb/cordova-plugin-auto-update/issues"
     },
-    "homepage": "https://github.com/yanglb/cordova-plugin-update"
+    "homepage": "https://github.com/yanglb/cordova-plugin-auto-update"
 }
