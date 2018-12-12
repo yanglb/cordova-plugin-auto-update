@@ -16,7 +16,7 @@
 
     <!-- dependencies -->
 
-    <js-module src="www/update.js" name="Update">
+    <js-module src="www/update.js" name="update">
         <clobbers target="update" />
     </js-module>
 
@@ -37,10 +37,26 @@
             <!-- 系统相关 -->
             <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
             <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+            <provider
+                android:name="ezy.boost.update.UpdateFileProvider"
+                android:authorities="${applicationId}.updatefileprovider"
+                android:exported="false"
+                android:grantUriPermissions="true">
+                <meta-data
+                    android:name="android.support.FILE_PROVIDER_PATHS"
+                    android:resource="@xml/update_cache_path"/>
+            </provider>
         </config-file>
+
+        <framework src="com.android.support:support-annotations:25.0.0" />
+        <framework src="com.android.support:appcompat-v7:25.0.0" />
 
         <source-file src="src/android/Update.java" target-dir="src/com/yanglb/cordova" />
         
+        <!-- ezy.boost.update -->
+        <source-file src="src/android/res/update_cache_path.xml" target-dir="res/xml" />
+
         <source-file src="src/android/ezy/boost/update/DefaultDownloadListener.java" target-dir="src/ezy/boost/update" />
         <source-file src="src/android/ezy/boost/update/DefaultPromptClickListener.java" target-dir="src/ezy/boost/update" />
         <source-file src="src/android/ezy/boost/update/ICheckAgent.java" target-dir="src/ezy/boost/update" />
@@ -51,7 +67,7 @@
         <source-file src="src/android/ezy/boost/update/IUpdateParser.java" target-dir="src/ezy/boost/update" />
         <source-file src="src/android/ezy/boost/update/IUpdatePrompter.java" target-dir="src/ezy/boost/update" />
         <source-file src="src/android/ezy/boost/update/OnDownloadListener.java" target-dir="src/ezy/boost/update" />
-        <source-file src="src/android/ezy/boost/update/OnFinishListener.java" target-dir="src/ezy/boost/update" />
+        <source-file src="src/android/ezy/boost/update/OnFailureListener.java" target-dir="src/ezy/boost/update" />
         <source-file src="src/android/ezy/boost/update/UpdateAgent.java" target-dir="src/ezy/boost/update" />
         <source-file src="src/android/ezy/boost/update/UpdateChecker.java" target-dir="src/ezy/boost/update" />
         <source-file src="src/android/ezy/boost/update/UpdateDownloader.java" target-dir="src/ezy/boost/update" />

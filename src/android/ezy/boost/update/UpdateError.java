@@ -75,7 +75,7 @@ public class UpdateError extends Throwable {
     public static final int DOWNLOAD_INCOMPLETE = 3009;
     public static final int DOWNLOAD_VERIFY = 3010;
 
-    public static final SparseArray<String> messages = new SparseArray<>();
+    public static final SparseArray<String> messages = new SparseArray<String>();
     static {
 
         messages.append(UPDATE_IGNORED, "该版本已经忽略");

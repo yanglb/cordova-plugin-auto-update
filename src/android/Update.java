@@ -57,7 +57,7 @@ public class Update extends CordovaPlugin {
 
         Log.d(TAG, "检查更新: " + url);
 
-        UpdateManager.create(this.cordova.getActivity().getApplicationContext())
+        UpdateManager.create(this.cordova.getActivity())
                 .setUrl(url)
                 .setNotifyId(100)
                 .setWifiOnly(false)
@@ -69,7 +69,7 @@ public class Update extends CordovaPlugin {
         PackageManager packageManager = this.cordova.getActivity().getPackageManager();
         try {
             String vn = packageManager.getPackageInfo(this.cordova.getActivity().getPackageName(), 0).versionName;
-            return vn;
+            return "1.2.0";
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
             return "";
