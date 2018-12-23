@@ -13,7 +13,8 @@ cordova plugin add cordova-plugin-auto-update
 ### JS使用
 ```js
 // 设置接口地址
-update.init('api address');
+// isWifiOnly 默认 false
+update.init('api address', 'isWifiOnly');
 
 // 手动检查
 update.manualCheck();
