@@ -5,10 +5,8 @@ import android.util.Log;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
-import org.apache.cordova.PluginResult;
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import ezy.boost.update.UpdateManager;
 
@@ -19,36 +17,18 @@ public class Update extends CordovaPlugin {
     private static final String ACTION_CHECK = "check";
     private static final String ACTION_MANUAL_CHECK = "manual-check";
 
-    private CallbackContext callbackContext;
-    
     public boolean execute(String action, final JSONArray args, final CallbackContext callback) throws JSONException {
-        this.callbackContext = callback;
         if (ACTION_CHECK.equals(action)) {
-            checkUpdate(false, args.getString(0));
+            checkUpdate(false, args.getString(0), args.getBoolean(1));
             return true;
         } else if (ACTION_MANUAL_CHECK.equals(action)) {
-            checkUpdate(true, args.getString(0));
+            checkUpdate(true, args.getString(0), args.getBoolean(1));
             return true;
         }
         return false;
     }
 
-    private void erroResponse(int code, String message) {
-        try {
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("code", code);
-            jsonObject.put("message", message);
-            if (callbackContext != null) {
-                PluginResult result = new PluginResult(PluginResult.Status.ERROR, jsonObject);
-                result.setKeepCallback(true);
-                callbackContext.sendPluginResult(result);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void checkUpdate(boolean isManual, String apiAddress) {
+    private void checkUpdate(boolean isManual, String apiAddress, boolean wifiOnly) {
         String url = String.format("%s?versionName=%s&from=cordova-update",
                 apiAddress,
                 getVersionName());
@@ -56,6 +36,7 @@ public class Update extends CordovaPlugin {
         Log.d(TAG, "检查更新: " + url);
 
         UpdateManager.setUrl(url, "cordova-update");
+        UpdateManager.setWifiOnly(wifiOnly);
         if (isManual) {
             UpdateManager.checkManual(cordova.getActivity());
         } else {
