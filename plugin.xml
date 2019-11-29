@@ -2,7 +2,7 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
   xmlns:android="http://schemas.android.com/apk/res/android"
   id="cordova-plugin-auto-update"
-  version="1.0.3">
+  version="1.2.0">
 
     <name>cordova-plugin-auto-update</name>
     <description>Auto update for cordova plugin</description>
@@ -37,6 +37,7 @@
             <!-- 系统相关 -->
             <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
             <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+            <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
         </config-file>
         <config-file target="AndroidManifest.xml" parent="/manifest/application" mode="merge">
             <provider
